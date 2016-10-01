@@ -32,7 +32,7 @@ public class ControllerServlet extends HttpServlet {
 		String page = null;
 		
 		if(action.equals("login")){
-			page = "/login.jsp";
+			page = "/login.jsp";// адресс обязательно со слешем
 		}
 		else if(action.equals("about")){
 			page = "/about.jsp";
@@ -40,7 +40,7 @@ public class ControllerServlet extends HttpServlet {
 		else{
 			page = "/error.jsp";
 		}
-		getServletContext().getRequestDispatcher(page).forward(request,response);
+		getServletContext().getRequestDispatcher(page).forward(request,response);// переходим
 		
 	}
 
