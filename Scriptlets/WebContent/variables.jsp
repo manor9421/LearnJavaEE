@@ -1,6 +1,0 @@
-<%
-
-String name = "Sue";
-
-
-%>
