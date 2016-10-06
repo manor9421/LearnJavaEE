@@ -31,6 +31,15 @@ public class M1 {
 			}
 			
 		}
+		
+		/*boolean res = dbConnection.addNewBook(connection, "Good life", 17.42, "Bill");
+		if(res){
+			System.out.println("OK");
+		}else{
+			System.out.println("No");
+		}*/
+		
+		
 	}
 
 }

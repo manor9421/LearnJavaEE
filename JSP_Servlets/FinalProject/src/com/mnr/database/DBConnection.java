@@ -84,6 +84,35 @@ public class DBConnection {
 		
 	}
 	
+	public boolean addNewBook(Connection connection, String name, double price, String author){
+		
+		String sql = "INSERT INTO books(`name`,`price`,`author`) VALUES(?,?,?)";
+		
+		try {
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+		
+			pstmt.setString(1, name);
+			pstmt.setDouble(2, price);
+			pstmt.setString(3, author);
+			
+			int result = pstmt.executeUpdate();
+			
+			pstmt.close();
+			
+			if(result == 1){
+				return true;
+			}else{
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+	
 }
 
 /*
