@@ -17,9 +17,9 @@ public class DBConnection {
 		//this.connection = connection;
 	}
 	
-	public static Connection getConnection(){
+	public Connection getConnection(){
 		String mySqlUser = "root";
-		String mySqlPwd = "";
+		String mySqlPwd = "111";
 		String mySqlUrl = "jdbc:mysql://localhost:3306/workers";
 		try {
 			return DriverManager.getConnection(mySqlUrl,mySqlUser,mySqlPwd);
@@ -28,7 +28,7 @@ public class DBConnection {
 		}
 	}
 	
-	public static Book[] findBooks(Connection connection){
+	public Book[] findBooks(Connection connection){
 
 		String sql = "SELECT `id`,`name`,`price`,`author` FROM `books`";
 		
@@ -58,7 +58,7 @@ public class DBConnection {
 		
 	}
 	
-	public static Book findBook(Connection connection, String name){
+	public Book findBook(Connection connection, String name){
 		
 		PreparedStatement stmt = null;
 		
@@ -85,3 +85,15 @@ public class DBConnection {
 	}
 	
 }
+
+/*
+CREATE TABLE books(
+id INT NOT NULL AUTO_INCREMENT,
+name VARCHAR(100) NOT NULL,
+price DECIMAL(10) NOT NULL,
+author VARCHAR(100) DEFAULT '',
+PRIMARY KEY ( id )
+);
+
+INSERT INTO books (`name`,`price`,`author`) VALUES ('TheBook13',100,'John');
+*/
