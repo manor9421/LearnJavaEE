@@ -22,8 +22,9 @@ public class DBConnection {
 		String mySqlPwd = "111";
 		String mySqlUrl = "jdbc:mysql://localhost:3306/workers";
 		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			return DriverManager.getConnection(mySqlUrl,mySqlUser,mySqlPwd);
-		}catch (SQLException e) {
+		}catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			return null;
 		}
 	}
