@@ -9,12 +9,16 @@
 	<jsp:param name="title" value="Book list" />
 </jsp:include>
 
+<div class='resultMessage'>${cookie['user']}</div>
+
+
+
 <%
 
-	String mySqlUser = "root";
+	/* String mySqlUser = "root";
 	String mySqlPwd = "111";
 	String mySqlUrl = "jdbc:mysql://localhost:3306/workers";
-	
+	*/
 	DBConnection dbConnection = new DBConnection();
 	
 	try {

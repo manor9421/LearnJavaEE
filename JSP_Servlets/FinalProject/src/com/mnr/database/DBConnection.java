@@ -114,6 +114,90 @@ public class DBConnection {
 		return false;
 	}
 	
+	public boolean checkUserData(Connection connection, String username, String password){
+		
+		PreparedStatement stmt = null;
+		
+		ResultSet rs = null;
+		
+		try{
+			String sql = "SELECT `login`,`password` FROM `users` WHERE `login`=? AND `password`=?";
+			
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, username);
+			stmt.setString(2, password);
+			
+			rs = stmt.executeQuery();
+			
+			rs.first();
+			
+			if(rs.getString("login").equals(username) && rs.getString("password").equals(password)){
+				return true;
+			}
+			
+			return false;
+		}catch (SQLException e) {
+			return false;
+		}
+		
+	}
+	
+	
+	public boolean addNewUser(Connection connection, String username, String password){
+		
+		String query = "INSERT INTO users(`login`,`password`) VALUES(?,?)";
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			
+			statement.setString(1, username);
+			statement.setString(2, password);
+			
+			int result = statement.executeUpdate();
+			if(result == 1){
+				return true;
+			}else{
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+	
+	public boolean checkUserExist(Connection connection, String name){
+		
+		String sql = "SELECT `id` FROM `users` WHERE `login`=?";
+		
+		try {
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, name);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			resultSet.first();
+			if(resultSet.getRow() > 0){
+				return true;
+			}else{
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+		
+	}
+	
+	
+	
 }
 
 /*
