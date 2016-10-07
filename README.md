@@ -1,3 +1,3 @@
 # LearnJavaEE
-JavaEE start
-JSP/Servlets and more
+JavaEE start.
+JSP/Servlets with JDBC and more
