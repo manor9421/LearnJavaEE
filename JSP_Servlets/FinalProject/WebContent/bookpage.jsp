@@ -9,8 +9,12 @@
 	<jsp:param name="title" value="Book list" />
 </jsp:include>
 
-<div class='resultMessage'>${cookie['user']}</div>
+<c:if test="${cookie.containsKey('user')}">
+	<div>Hello, ${cookie.user}</div>
+</c:if>
 
+<a href="/FinalProject/login.jsp">Login</a>
+<a href="/FinalProject/addbook.jsp">Add new book</a>
 
 
 <%
