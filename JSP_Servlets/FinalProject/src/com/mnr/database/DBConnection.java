@@ -164,8 +164,6 @@ public class DBConnection {
 			e.printStackTrace();
 			return false;
 		}
-		
-		
 	}
 	
 	public boolean checkUserExist(Connection connection, String name){

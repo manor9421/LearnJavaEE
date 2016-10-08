@@ -1,5 +1,6 @@
 <%@page import="java.sql.DriverManager"%>
 <%@page import="com.mnr.beans.Book"%>
+<%@page import="javax.servlet.http.Cookie"%>
 <%@page import="com.mnr.database.DBConnection"%>
 <%@page import="java.sql.Connection"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -9,25 +10,24 @@
 	<jsp:param name="title" value="Book list" />
 </jsp:include>
 
-<c:if test="${cookie.containsKey('user')}">
-	<div>Hello, ${cookie.user}</div>
-</c:if>
+<c:choose>
+	<c:when test="${cookie.containsKey('user')}">
+		<div>Hello, ${cookie.user.getValue()}</div>
+		<div><a href="/FinalProject/Connector?action=logout">Logout</a></div>
+	</c:when>
+	<c:otherwise>
+		<a href="/FinalProject/login.jsp">Login</a>
+	</c:otherwise>
+</c:choose>
 
-<a href="/FinalProject/login.jsp">Login</a>
 <a href="/FinalProject/addbook.jsp">Add new book</a>
-
 
 <%
 
-	/* String mySqlUser = "root";
-	String mySqlPwd = "111";
-	String mySqlUrl = "jdbc:mysql://localhost:3306/workers";
-	*/
 	DBConnection dbConnection = new DBConnection();
 	
 	try {
-	    //Class.forName("com.mysql.jdbc.Driver").newInstance();
-	    Connection  connection = dbConnection.getConnection();//DriverManager.getConnection(mySqlUrl, mySqlUser, mySqlPwd);
+	    Connection  connection = dbConnection.getConnection();
 	    
 	    if(!connection.isClosed()){
 	    	Book[] books = dbConnection.findBooks(connection);
@@ -38,7 +38,7 @@
 	}catch(Exception ex){
 	    out.println("Unable to connect db: "+ex);
 	}
-
+	
 %>
 
 <c:forEach var="book" items="${bookList}">

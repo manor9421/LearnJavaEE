@@ -11,7 +11,9 @@
 
 <div class="headerWrapper">
 	<div class="header">
-		<img src="${pageContext.request.contextPath}/images/logo.png" />
+		<a href="/FinalProject/bookpage.jsp" >
+			<img src="${pageContext.request.contextPath}/images/logo.png" />
+		</a>
 	</div>
 </div>
 <div class="content">

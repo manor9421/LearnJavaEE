@@ -19,5 +19,7 @@ if(request.getAttribute("result") != null){
 	<input type="submit" value="OK"/>  
 </form>
 
+<div><a href="/FinalProject/register.jsp">Registration</a></div>
+
 
 <jsp:include page="footer.jsp"/>

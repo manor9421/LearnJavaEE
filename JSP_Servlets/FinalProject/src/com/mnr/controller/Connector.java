@@ -34,8 +34,27 @@ public class Connector extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+
+		String action = request.getParameter("action");
+		DBConnection dbConnection = new DBConnection();
+		Connection connection = dbConnection.getConnection();
 		
-		
+		if(action == null){
+			
+		}else if(action.equals("logout")){
+			Cookie[] cookies = null;
+			cookies = request.getCookies();
+			if(cookies!= null){
+				for(int i=0;i<cookies.length;i++){
+					Cookie cookie = cookies[i];
+					if(cookie.getName().equals("user")){
+						cookie.setMaxAge(0);
+						response.addCookie(cookie);
+					}
+				}
+			}
+		}
+		request.getRequestDispatcher("/bookpage.jsp").forward(request, response);
 	}
 
 	/**
@@ -96,6 +115,19 @@ public class Connector extends HttpServlet {
 			}else{
 				request.setAttribute("result", "Check all data");
 				request.getRequestDispatcher("/login.jsp").forward(request, response);
+			}
+			
+		}else if(action.equals("user_registration")){
+			String username = request.getParameter("login");
+			String password = request.getParameter("password");
+			
+			if(dbConnection.checkUserExist(connection, username)){
+				request.setAttribute("result", "User exist");
+				request.getRequestDispatcher("/register.jsp").forward(request, response);
+			}else{
+				dbConnection.addNewUser(connection, username, password);
+				request.setAttribute("result", "User created");
+				request.getRequestDispatcher("/register.jsp").forward(request, response);
 			}
 			
 		}
