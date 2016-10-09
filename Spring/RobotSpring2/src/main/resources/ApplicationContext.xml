@@ -91,6 +91,28 @@
 	
 	<bean id="databaseBean" class="ru.javabegin.training.spring.impls.Database"/>
 	
+	<bean id="t1000a" class="ru.javabegin.training.spring.impls.robot.ModelT1000" parent="baseModel" scope="prototype">
+
+		<constructor-arg value="silver" index="3" type="String" />
+		<constructor-arg value="2005" index="4" type="int" />
+		<constructor-arg value="true" index="5" type="boolean" />		
+
+	</bean>
+	
+	<bean id="actionReplacer" class="ru.javabegin.training.spring.impls.robot.ActionReplacer" />
+	
+	<bean id="t1000Conveyor" class="ru.javabegin.training.spring.impls.conveyor.T1000Conveyor">
+		<!-- передать в абстрактный метод createRobot(абстрактного класса T1000Conveyor)
+			значение t1000a.
+			теперь вызов метода createRobot будет создавать новый экземпляр
+			T1000a, т.к. он - prototype -->
+		<!-- <lookup-method name="createRobot" bean="t1000a" /> -->
+		<!-- заменить метод action на actionReplacer -->
+		<replaced-method name="action" replacer="actionReplacer" />
+		
+	</bean>
+	
+	
 	<!-- import файла, содержащего бины. Часто разделяются по конфигурациям, а не по объектам. Напр, для работы с базой, для работы с вебом и т.д.
 	<import resource="t1000_context.xml" />
 	то же самое можно делать и в pom.xml -->
