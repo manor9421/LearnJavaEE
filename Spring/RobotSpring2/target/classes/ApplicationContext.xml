@@ -18,8 +18,8 @@
 		init и destroy-методы отрабатывают при создании и уничтожении бинов
 		lazy-init - чтобы при создании первого бина не срабатывал init и на этом,
 		и он не занимал память. т.к. по-умолчанию он срабатывает для всех описанных,
-		
-		 -->
+		depends-on - создасться только ПОСЛЕ инициализации databaseBean
+		parent="baseModel" - унаследовать все, что имеет baseModel -->
 	<bean id="t1000"
 		class="ru.javabegin.training.spring.impls.robot.ModelT1000"
 		
@@ -32,6 +32,8 @@
 		
 		scope="prototype"
 		lazy-init="true"
+		depends-on="databaseBean"
+		
 		>
 		<!-- должно соответствовать конструктору, index - если указываем ЗДЕСЬ не по порядку.
 			type - по желанию 
@@ -52,12 +54,22 @@
 	<!-- приписка "Empty" не обязательно, но для нас значит, что будет использоваться конструктор БЕЗ обьектов. только тот, что с примитивными типами -->
 	<bean id="t1000Empty"
 		class="ru.javabegin.training.spring.impls.robot.ModelT1000"
-		lazy-init="true" >
+		lazy-init="true"
+		parent="baseModel" >
 
 		<constructor-arg value="silver" index="0" type="String"/>
 		<constructor-arg value="2006" index="1" type="int"/>
 		<constructor-arg value="true" index="2" type="boolean"/>
 
+	</bean>
+	
+	<!-- указываем, что бин - как абстрактный класс. И его уже наследуем.
+	Можно и без abstract. наследует только свойства и конструкторы, но не методы -->
+	<bean id="baseModel" abstract="true">
+	
+		<constructor-arg ref="sonyHand" index="0"/>
+		<constructor-arg ref="sonyLeg" index="1"/>
+		<constructor-arg ref="sonyHead" index="2"/>
 	</bean>
 
 	<bean id="sonyHead"
@@ -76,6 +88,8 @@
 		
 	<bean class="ru.javabegin.training.spring.main.MyBeanPostProcessor">
 	</bean>
+	
+	<bean id="databaseBean" class="ru.javabegin.training.spring.impls.Database"/>
 	
 	<!-- import файла, содержащего бины. Часто разделяются по конфигурациям, а не по объектам. Напр, для работы с базой, для работы с вебом и т.д.
 	<import resource="t1000_context.xml" />
