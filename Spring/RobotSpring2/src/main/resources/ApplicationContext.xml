@@ -1,23 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"
+	>
+	<!-- для всех бинов будут такие destroy и init методы(если выше указать)
+	default-init-method="initObject"
+	default-destroy-method="destroyObject"
+	default-lazy-init="true" - lazy init
+	 -->
 
-
+	<!-- через "p" можно писать пропертис, если подключить класс(см выше в обьявлении).
+		prototype - каждый раз, когда будем вызывать .getBean, будет создаваться НОВЫЙ объект
+		Если убрать scope, то .getBean будет возвращать ОДИН и тот же объект:
+			ModelT1000 t1000 = (ModelT1000) context.getBean("t1000");
+			t1000 = (ModelT1000) context.getBean("t1000");
+		init и destroy-методы отрабатывают при создании и уничтожении бинов
+		lazy-init - чтобы при создании первого бина не срабатывал init и на этом,
+		и он не занимал память. т.к. по-умолчанию он срабатывает для всех описанных,
+		
+		 -->
 	<bean id="t1000"
-		class="ru.javabegin.training.spring.impls.robot.ModelT1000">
+		class="ru.javabegin.training.spring.impls.robot.ModelT1000"
+		
+		p:hand-ref="toshibaHand"
+		p:leg-ref="sonyLeg"
+		p:head-ref="sonyHead"
+		
+		init-method="initObject"
+		destroy-method="destroyObject"
+		
+		scope="prototype"
+		lazy-init="true"
+		>
+		<!-- должно соответствовать конструктору, index - если указываем ЗДЕСЬ не по порядку.
+			type - по желанию 
 		<constructor-arg ref="sonyHand"/>
 		<constructor-arg ref="sonyLeg"/>
-		<constructor-arg ref="sonyHead"/>
+		<constructor-arg ref="sonyHead"/> -->
+		<constructor-arg value="silver" index="0" type="String"/>
+		<constructor-arg value="2006" index="1" type="int"/>
+		<constructor-arg value="true" index="2" type="boolean"/>
 		
 		<!-- Не смотря на то, что можно и так и так, property в приоритете.
 			Потому что это get/setters, и мы НАЗНАЧАЕМ новые значения после создания -->
-		<property name="hand" ref="toshibaHand"/>
-		<property name="head" ref="toshibaHead"/>
-		<property name="leg" ref="toshibaLeg"/>
+		<!-- <property name="hand" ref="toshibaHand"/> -->
+		<!-- <property name="head" ref="toshibaHead"/> -->
+		<!-- <property name="leg" ref="toshibaLeg"/> -->
 	</bean>
+	
+	<!-- приписка "Empty" не обязательно, но для нас значит, что будет использоваться конструктор БЕЗ обьектов. только тот, что с примитивными типами -->
+	<bean id="t1000Empty"
+		class="ru.javabegin.training.spring.impls.robot.ModelT1000"
+		lazy-init="true" >
 
+		<constructor-arg value="silver" index="0" type="String"/>
+		<constructor-arg value="2006" index="1" type="int"/>
+		<constructor-arg value="true" index="2" type="boolean"/>
 
+	</bean>
 
 	<bean id="sonyHead"
 		class="ru.javabegin.training.spring.impls.sony.SonyHead"/>
@@ -33,4 +74,10 @@
 	<bean id="toshibaLeg"
 		class="ru.javabegin.training.spring.impls.toshiba.ToshibaLeg"/>
 		
+	<bean class="ru.javabegin.training.spring.main.MyBeanPostProcessor">
+	</bean>
+	
+	<!-- import файла, содержащего бины. Часто разделяются по конфигурациям, а не по объектам. Напр, для работы с базой, для работы с вебом и т.д.
+	<import resource="t1000_context.xml" />
+	то же самое можно делать и в pom.xml -->
 </beans>
