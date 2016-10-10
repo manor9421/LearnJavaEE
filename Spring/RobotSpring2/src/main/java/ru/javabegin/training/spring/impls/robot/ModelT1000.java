@@ -2,12 +2,24 @@ package ru.javabegin.training.spring.impls.robot;
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import ru.javabegin.training.spring.interfaces.Hand;
 import ru.javabegin.training.spring.interfaces.Head;
 import ru.javabegin.training.spring.interfaces.Leg;
 import ru.javabegin.training.spring.interfaces.Robot;
 
+/*
+ * Скачать аннотации - Preferences - Maven и поставить галочки Artifacts и Javadoc
+ * Еще есть @Lazy
+ */
+
+@Component // этот класс превратиться в бин автоматически, ЕСЛИ его будет искать спринг(<context:annotation-config...)
+//@Qualifier(value="model1")
 public class ModelT1000 extends BaseModel implements Robot,InitializingBean,DisposableBean {
 
 	/*private Hand hand;
@@ -20,7 +32,19 @@ public class ModelT1000 extends BaseModel implements Robot,InitializingBean,Disp
 
 	public ModelT1000() {
 	}
+	
+	@Bean// автоматически станет бином
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)// указываем scope
+	public ModelT1000 model1(){
+		return new ModelT1000();//
+	}
 
+	@Bean// автоматически станет бином
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)// указываем scope
+	public ModelT1000 model2(){
+		return new ModelT1000();//
+	}
+	
 	/*public ModelT1000(Hand hand, Leg leg, Head head) {
 		super();
 		this.hand = hand;
