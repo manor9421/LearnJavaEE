@@ -13,12 +13,12 @@ import ru.javabegin.training.spring.aop.annotations.ShowResult;
 import ru.javabegin.training.spring.aop.annotations.ShowTime;
 
 @Component
-public class FileManager implements Manager{
+public class FileManager2 {
 
-	@Override
 	@ShowTime
 	@ShowResult
 	public Set<String> getExtensionList(String folder) {
+
 		File dir = new File(folder);
 
 		Set<String> extList = new TreeSet<>();
@@ -37,7 +37,6 @@ public class FileManager implements Manager{
 
 	}
 
-	@Override
 	@ShowResult
 	public Map<String, Integer> getExtensionCount(String folder) {
 

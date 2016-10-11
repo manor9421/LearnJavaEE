@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Aspect//определить как аспект(чтобы не писать в xml. Component обязательно)
 public class MyLogger {
 
-	public void printValue(Object obj) {
+	/*public void printValue(Object obj) {
 		System.out.println(obj);
 	}
 
@@ -23,14 +23,17 @@ public class MyLogger {
 
 	public void close() {
 		System.out.println("close");
-	}
+	}*/
 	
-	@Pointcut("execution(* *(..)) && within(ru.javabegin.training.spring.aop.objects.*)")//объявляем Поинткат.
+	
+	//@Pointcut("execution(* *(..)) && within(ru.javabegin.training.spring.aop.objects.*)")//объявляем Поинткат.
+	@Pointcut("execution(* ru.javabegin.training.spring.aop.objects.Manager.*(..))")//в этот срез попадут только те методы, которые реализуют данный интерфейс
 	private void allMethods(){//этот метод раньше создавался в XML, но раз без него - создаем пустой
 	}
 	
 	// два вида аннотаций - allMethods() и наша ShowTime
-	@Around("allMethods() && @annotation(ru.javabegin.training.spring.aop.annotations.ShowTime)")
+	//@Around("allMethods() && @annotation(ru.javabegin.training.spring.aop.annotations.ShowTime)")
+	@Around("allMethods() && execution(java.util.Map *(..))")//попадут все методы из Manager и Map
 	public Object watchTime(ProceedingJoinPoint joinpoint) {//принимает ссылку на текущий join point
 		long start = System.currentTimeMillis();
 		System.out.println("method begin: " + joinpoint.getSignature().toShortString());
@@ -47,6 +50,7 @@ public class MyLogger {
 		return output;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@AfterReturning(pointcut = "allMethods()", returning = "obj")
 	public void print(Object obj) {
 

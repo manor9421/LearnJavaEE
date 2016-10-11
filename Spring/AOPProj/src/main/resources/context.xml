@@ -46,6 +46,8 @@
 		
 		<!-- для аннотаций -->
 	<context:component-scan base-package="ru.javabegin.training.spring.*" />
-	<aop:aspectj-autoproxy />
+	<!-- по-умолч Proxy знает ТОЛЬКО про интерфейсы. И чтобы можно было кастить
+		по классам, имплементирующим интерфейсы необходимо добавить proxy-target-class="true" -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 
 </beans>
