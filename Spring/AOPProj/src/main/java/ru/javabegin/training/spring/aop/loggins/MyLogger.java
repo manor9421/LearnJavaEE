@@ -38,8 +38,14 @@ public class MyLogger {
 		long start = System.currentTimeMillis();
 		System.out.println("method begin: " + joinpoint.getSignature().toShortString());
 		Object output = null;
+		/*try {
+			output = joinpoint.proceed();*/
+		for (Object object : joinpoint.getArgs()) {
+			System.out.println("Param : " + object);
+		}
+
 		try {
-			output = joinpoint.proceed();
+				output = joinpoint.proceed(new Object[] { "/home" });
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -50,7 +56,7 @@ public class MyLogger {
 		return output;
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("rawtypes")//не показывать сообщение данного типа(при компиляции)
 	@AfterReturning(pointcut = "allMethods()", returning = "obj")
 	public void print(Object obj) {
 
@@ -70,6 +76,20 @@ public class MyLogger {
 		}
 
 		System.out.println("Print info end <<");
+		System.out.println();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@AfterReturning(pointcut = "allMethods() && execution(java.util.Set *(String)) && args(folder)", returning = "obj")//folder - что придЁт в метод
+	public void printSet(Object obj, String folder) {
+
+		System.out.println("Printing set >>");
+		System.out.println("Folder = " + folder);
+		Set set = (Set) obj;
+		for (Object object : set) {
+			System.out.println(object);
+		}
+		System.out.println("End printing set <<");
 		System.out.println();
 
 	}
