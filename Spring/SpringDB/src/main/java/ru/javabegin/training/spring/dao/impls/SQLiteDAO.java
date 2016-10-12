@@ -22,7 +22,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import ru.javabegin.training.spring.dao.interfaces.MP3Dao;
 import ru.javabegin.training.spring.dao.objects.Author;
@@ -46,6 +48,44 @@ public class SQLiteDAO implements MP3Dao {
 		//this.dataSource = dataSource;
 	}
 	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public int insertMP3(MP3 mp3) {
+
+		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
+
+		int author_id = insertAuthor(mp3.getAuthor());
+
+		String sqlInsertMP3 = "insert into mp3 (author_id2, name) VALUES (:authorId, :mp3Name)";
+
+		MapSqlParameterSource params = new MapSqlParameterSource();
+
+		params = new MapSqlParameterSource();
+		params.addValue("mp3Name", mp3.getName());
+		params.addValue("authorId", author_id);
+
+		return jdbcTemplate.update(sqlInsertMP3, params);
+
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.MANDATORY)//все нормально, т.к. этот метод вызывается в другом(insertMP3), где уже открыта транзакция
+	public int insertAuthor(Author author) {
+		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
+
+		String sqlInsertAuthor = "insert into author (name) VALUES (:authorName)";
+
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("authorName", author.getName());
+
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+
+		jdbcTemplate.update(sqlInsertAuthor, params, keyHolder);
+
+		return keyHolder.getKey().intValue();
+
+	}
+
 
 	/*@Override
 	public void insert(MP3 mp3) {
