@@ -7,9 +7,9 @@ import ru.javabegin.training.spring.dao.objects.MP3;
 
 public interface MP3Dao {
 
-	void insert(MP3 mp3);
+	int insert(MP3 mp3);
 
-	void insert(List<MP3> mp3List);
+	int insertList(List<MP3> mp3List);
 
 	void delete(MP3 mp3);
 
@@ -24,5 +24,7 @@ public interface MP3Dao {
 	int getMP3Count();
 
 	Map<String, Integer> getStat();
+
+	int[] batchInsert(List<MP3> listMP3);
 	
 }
