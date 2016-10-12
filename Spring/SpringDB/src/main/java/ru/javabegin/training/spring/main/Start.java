@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ru.javabegin.training.spring.dao.impls.SQLiteDAO;
+import ru.javabegin.training.spring.dao.interfaces.MP3Dao;
 import ru.javabegin.training.spring.dao.objects.MP3;
 
 public class Start {
@@ -16,9 +17,10 @@ public class Start {
 		// new SQLiteDAO().insertWithJDBC(mp3);
 
 		ApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
-		SQLiteDAO sqLiteDAO = (SQLiteDAO) context.getBean("sqliteDAO");
+		MP3Dao sqLiteDAO = (MP3Dao) context.getBean("sqliteDAO");
 
-		sqLiteDAO.insert(mp3);
+		//sqLiteDAO.insert(mp3);
+		System.out.println(sqLiteDAO.getMP3ListByAuthor("John").size());
 
 	}
 
