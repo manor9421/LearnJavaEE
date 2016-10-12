@@ -49,10 +49,10 @@ public class SQLiteDAO implements MP3Dao {
 	}
 	
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	//@Transactional(propagation = Propagation.REQUIRED)
 	public int insertMP3(MP3 mp3) {
 
-		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
+		//System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
 
 		int author_id = insertAuthor(mp3.getAuthor());
 
@@ -69,10 +69,17 @@ public class SQLiteDAO implements MP3Dao {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.MANDATORY)//все нормально, т.к. этот метод вызывается в другом(insertMP3), где уже открыта транзакция
+	//@Transactional(propagation = Propagation.MANDATORY)//все нормально, т.к. этот метод вызывается в другом(insertMP3), где уже открыта транзакция
 	public int insertAuthor(Author author) {
-		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
+		//System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		String sqlInsertAuthor = "insert into author (name) VALUES (:authorName)";
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
@@ -109,7 +116,7 @@ public class SQLiteDAO implements MP3Dao {
 
 	}*/
 	@Override
-	@Transactional// выполнить данный метод через транзакцию(так что если одна из наших вставок не сработает, то и вторая откатится)
+	//@Transactional// выполнить данный метод через транзакцию(так что если одна из наших вставок не сработает, то и вторая откатится)
 	public int insert(MP3 mp3) {
 
 		String sqlInsertAuthor = "insert into author (name) VALUES (:authorName)";
