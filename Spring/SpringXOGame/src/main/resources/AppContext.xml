@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	
+	<bean id="mainWindow"
+		class="javax.swing.JFrame"
+			p:title="XO Game">
+	</bean>
+	
+	<bean id="xOGameButton"
+		class="com.mnr.xo.model.XOGameButton" 
+		scope="prototype">
+		<constructor-arg index="0" value="1" type="int"/>
+		<constructor-arg index="1" value="2" type="int"/>
+		<constructor-arg index="2" value="-" type="java.lang.String"/>
+	</bean>
+	
+	<bean id="gameField"
+		class="com.mnr.xo.view.GameField" >
+		<constructor-arg name="mainWindow" ref="mainWindow"/>
+		<constructor-arg name="jb" >
+			<list>
+				<list>
+					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+						<constructor-arg index="0" value="0"/>
+						<constructor-arg index="1" value="0"/>
+					</bean>
+					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+						<constructor-arg index="0" value="0"/>
+						<constructor-arg index="1" value="1"/>
+					</bean>
+					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+						<constructor-arg index="0" value="0"/>
+						<constructor-arg index="1" value="2"/>
+					</bean>
+				</list>
+				<list>
+					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+						<constructor-arg index="0" value="1"/>
+						<constructor-arg index="1" value="0"/>
+					</bean>
+					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+						<constructor-arg index="0" value="1"/>
+						<constructor-arg index="1" value="1"/>
+					</bean>
+					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+						<constructor-arg index="0" value="1"/>
+						<constructor-arg index="1" value="2"/>
+					</bean>
+				</list>
+				<list>
+					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+						<constructor-arg index="0" value="2"/>
+						<constructor-arg index="1" value="0"/>
+					</bean>
+					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+						<constructor-arg index="0" value="2"/>
+						<constructor-arg index="1" value="1"/>
+					</bean>
+					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+						<constructor-arg index="0" value="2"/>
+						<constructor-arg index="1" value="2"/>
+					</bean>
+				</list>
+			</list>
+		</constructor-arg>	
+	</bean>
+	
+	<bean id="buttonBase"
+		abstract="true" >
+		<constructor-arg index="2" value="-" type="java.lang.String"/>
+	</bean>
+	
+	
+	<!-- Game bean -->
+	<bean id="game"
+		class="com.mnr.xo.model.Game" >
+		<constructor-arg index="0" type="com.mnr.xo.interfaces.XOGameField[][]" >
+			<list>
+				<list>
+					<ref bean="field"/>
+				 	<ref bean="field"/>
+				 	<ref bean="field"/>
+				</list>
+			 	<list>
+					<ref bean="field"/>
+				 	<ref bean="field"/>
+				 	<ref bean="field"/>
+				</list>
+				<list>
+					<ref bean="field"/>
+				 	<ref bean="field"/>
+				 	<ref bean="field"/>
+				</list>
+			</list>
+		</constructor-arg>
+		
+	</bean>
+		
+	<bean id="field"
+		class="com.mnr.xo.model.Field"
+		scope="prototype"
+		
+		/>
+		
+	<bean id="player" class="com.mnr.xo.model.Player">
+		<constructor-arg index="0" type="com.mnr.xo.model.PlayerSymbol" value="X" />
+		<constructor-arg index="1" type="java.lang.String" value="Sergey" />
+	</bean>
+	
+	<bean id="controller"
+		class="com.mnr.xo.controller.Controller">
+		<constructor-arg><ref bean="gameField" /></constructor-arg>
+		<constructor-arg><ref bean="game" /></constructor-arg>
+		<constructor-arg><ref bean="player" /></constructor-arg>
+	</bean>
+	
+	
+	
+
+</beans>
