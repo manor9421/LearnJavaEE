@@ -5,9 +5,10 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import com.mnr.xo.interfaces.XOGameButton;
 import com.mnr.xo.interfaces.XOGameViewField;
 import com.mnr.xo.model.PlayerSymbol;
-import com.mnr.xo.model.XOGameButton;
+import com.mnr.xo.model.GameButton;
 
 public class GameField implements XOGameViewField {
 
@@ -42,7 +43,7 @@ public class GameField implements XOGameViewField {
 			for(int j=0;j<jb[i].length;j++){
 				//jb[i][j] = new XOGameButton(i,j,"-");
 				
-				mainWindow.add(jb[i][j]);
+				mainWindow.add((GameButton)jb[i][j]);
 			}
 		}
 	}

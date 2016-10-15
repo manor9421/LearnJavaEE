@@ -12,57 +12,49 @@
 			p:title="XO Game">
 	</bean>
 	
-	<bean id="xOGameButton"
-		class="com.mnr.xo.model.XOGameButton" 
-		scope="prototype">
-		<constructor-arg index="0" value="1" type="int"/>
-		<constructor-arg index="1" value="2" type="int"/>
-		<constructor-arg index="2" value="-" type="java.lang.String"/>
-	</bean>
-	
 	<bean id="gameField"
 		class="com.mnr.xo.view.GameField" >
 		<constructor-arg name="mainWindow" ref="mainWindow"/>
 		<constructor-arg name="jb" >
 			<list>
 				<list>
-					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+					<bean class="com.mnr.xo.model.GameButton" parent="buttonBase">
 						<constructor-arg index="0" value="0"/>
 						<constructor-arg index="1" value="0"/>
 					</bean>
-					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+					<bean class="com.mnr.xo.model.GameButton" parent="buttonBase">
 						<constructor-arg index="0" value="0"/>
 						<constructor-arg index="1" value="1"/>
 					</bean>
-					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+					<bean class="com.mnr.xo.model.GameButton" parent="buttonBase">
 						<constructor-arg index="0" value="0"/>
 						<constructor-arg index="1" value="2"/>
 					</bean>
 				</list>
 				<list>
-					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+					<bean class="com.mnr.xo.model.GameButton" parent="buttonBase">
 						<constructor-arg index="0" value="1"/>
 						<constructor-arg index="1" value="0"/>
 					</bean>
-					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+					<bean class="com.mnr.xo.model.GameButton" parent="buttonBase">
 						<constructor-arg index="0" value="1"/>
 						<constructor-arg index="1" value="1"/>
 					</bean>
-					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+					<bean class="com.mnr.xo.model.GameButton" parent="buttonBase">
 						<constructor-arg index="0" value="1"/>
 						<constructor-arg index="1" value="2"/>
 					</bean>
 				</list>
 				<list>
-					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+					<bean class="com.mnr.xo.model.GameButton" parent="buttonBase">
 						<constructor-arg index="0" value="2"/>
 						<constructor-arg index="1" value="0"/>
 					</bean>
-					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+					<bean class="com.mnr.xo.model.GameButton" parent="buttonBase">
 						<constructor-arg index="0" value="2"/>
 						<constructor-arg index="1" value="1"/>
 					</bean>
-					<bean class="com.mnr.xo.model.XOGameButton" parent="buttonBase">
+					<bean class="com.mnr.xo.model.GameButton" parent="buttonBase">
 						<constructor-arg index="0" value="2"/>
 						<constructor-arg index="1" value="2"/>
 					</bean>
@@ -106,7 +98,9 @@
 		class="com.mnr.xo.model.Field"
 		scope="prototype"
 		
-		/>
+	>
+		<constructor-arg index="0" type="com.mnr.xo.model.PlayerSymbol" value="EMPTY"></constructor-arg>
+	</bean>
 		
 	<bean id="player" class="com.mnr.xo.model.Player">
 		<constructor-arg index="0" type="com.mnr.xo.model.PlayerSymbol" value="X" />

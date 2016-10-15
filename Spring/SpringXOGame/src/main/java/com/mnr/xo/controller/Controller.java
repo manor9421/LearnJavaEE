@@ -4,21 +4,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+import com.mnr.xo.interfaces.XOGameButton;
+import com.mnr.xo.interfaces.XOGameModel;
+import com.mnr.xo.interfaces.XOGamePlayer;
 import com.mnr.xo.interfaces.XOGameViewField;
 import com.mnr.xo.model.Game;
 import com.mnr.xo.model.Player;
 import com.mnr.xo.model.PlayerSymbol;
-import com.mnr.xo.model.XOGameButton;
+import com.mnr.xo.model.GameButton;
 import com.mnr.xo.view.GameField;
 
 public class Controller implements ActionListener{
 	
 	XOGameViewField gameField;
-	Game game;
-	Player player;
-	Player comp;
+	XOGameModel game;
+	XOGamePlayer player;
+	XOGamePlayer comp;
 	
-	public Controller(XOGameViewField gameField, Game game, Player player) {
+	public Controller(XOGameViewField gameField, XOGameModel game, XOGamePlayer player) {
 		super();
 		this.gameField = gameField;
 		this.game = game;
@@ -28,7 +31,7 @@ public class Controller implements ActionListener{
 		addListeners();
 	}
 	
-	public Player getPlayer() {
+	public XOGamePlayer getPlayer() {
 		return player;
 	}
 
@@ -37,6 +40,7 @@ public class Controller implements ActionListener{
 		//проверить кнопку
 		int i = ( (XOGameButton) e.getSource() ).getI();
 		int j = ( (XOGameButton) e.getSource() ).getJ();
+		//System.out.println("22");
 		if(game.getGameFieldSymbol(i, j) == PlayerSymbol.EMPTY){
 			PlayerSymbol ps = PlayerSymbol.X;
 			// изменить массив модели
@@ -47,9 +51,8 @@ public class Controller implements ActionListener{
 			checkWinner();
 			compShoot();
 			checkWinner();
-			
 		}
-		
+		//System.out.println(game.getGameFieldSymbol(i, j)+"");
 	}
 	
 	private void checkWinner(){

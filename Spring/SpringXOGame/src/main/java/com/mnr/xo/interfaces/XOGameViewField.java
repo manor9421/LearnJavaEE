@@ -1,7 +1,6 @@
 package com.mnr.xo.interfaces;
 
 import com.mnr.xo.model.PlayerSymbol;
-import com.mnr.xo.model.XOGameButton;
 
 public interface XOGameViewField {
 	

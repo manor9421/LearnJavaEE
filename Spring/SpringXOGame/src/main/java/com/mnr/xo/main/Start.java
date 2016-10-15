@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.mnr.xo.controller.Controller;
+import com.mnr.xo.interfaces.XOGameModel;
 import com.mnr.xo.interfaces.XOGameViewField;
 import com.mnr.xo.model.Game;
 import com.mnr.xo.model.Player;
@@ -27,7 +28,6 @@ public class Start {
 		gameField.drawField();
 		
 		Game game = (Game) context.getBean("game");
-		
 		
 		Controller controller = (Controller) context.getBean("controller");
 		

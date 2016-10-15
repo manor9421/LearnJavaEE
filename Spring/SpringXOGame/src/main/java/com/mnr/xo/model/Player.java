@@ -1,11 +1,13 @@
 package com.mnr.xo.model;
 
-public class Player{
+import com.mnr.xo.interfaces.XOGamePlayer;
+
+public class Player implements XOGamePlayer{
 	
 	private PlayerSymbol ps;
 	String name;
 
-	public Player(PlayerSymbol ps,String name) {
+	public Player(PlayerSymbol ps,String name){
 		super();
 		this.ps = ps;
 		this.name = name;
