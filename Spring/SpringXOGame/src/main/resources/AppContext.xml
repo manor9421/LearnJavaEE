@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<context:component-scan base-package="com.mnr.xo.*"/>
-<!-- 	<aop:aspectj-autoproxy proxy-target-class="true" /> -->
+ 	<aop:aspectj-autoproxy proxy-target-class="true" /> 
 	
 	
 	<bean id="game"
@@ -29,12 +29,19 @@
 	<bean id="xOLogger" class="com.mnr.xo.logger.XOLogger"/>
 	
 	<aop:config>
-		<aop:aspect id="log" ref="xOLogger">
-			<aop:pointcut id="getValue" expression="execution(* com.mnr.xo.view.GameField.*(..))" />
-			<aop:after pointcut-ref="getValue" method="init" />
+		<aop:aspect id="gameFieldLog" ref="xOLogger">
+			<aop:pointcut id="buttonManipulations" expression="execution(* com.mnr.xo.view.GameField.changeButtonText(..))" />
+			<aop:before pointcut-ref="buttonManipulations" method="buttonStartChange" />
+			<aop:after pointcut-ref="buttonManipulations" method="buttonChanged" />
+		</aop:aspect>
+		<aop:aspect id="GameLog" ref="xOLogger">
+			<aop:pointcut id="gameManipulations" expression="execution(* com.mnr.xo.model.Game.getGameFieldSymbol(..))" />
+			<aop:pointcut id="gameisWinner" expression="execution(* com.mnr.xo.model.Game.isWinner())" />
+			<aop:after-returning method="printReturnedValue" returning="obj" pointcut-ref="gameManipulations" />
+			<aop:after-returning method="checkWinner" returning="obj" pointcut-ref="gameisWinner" />
+			
 		</aop:aspect>
 	</aop:config>
-	
 	
 	
 	
