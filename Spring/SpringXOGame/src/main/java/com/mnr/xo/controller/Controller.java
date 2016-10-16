@@ -8,11 +8,8 @@ import com.mnr.xo.interfaces.XOGameButton;
 import com.mnr.xo.interfaces.XOGameModel;
 import com.mnr.xo.interfaces.XOGamePlayer;
 import com.mnr.xo.interfaces.XOGameViewField;
-import com.mnr.xo.model.Game;
 import com.mnr.xo.model.Player;
 import com.mnr.xo.model.PlayerSymbol;
-import com.mnr.xo.model.GameButton;
-import com.mnr.xo.view.GameField;
 
 public class Controller implements ActionListener{
 	
@@ -21,20 +18,30 @@ public class Controller implements ActionListener{
 	XOGamePlayer player;
 	XOGamePlayer comp;
 	
+	public Controller(){
+	}
+	
+	/*
+	 * constructor
+	 */
 	public Controller(XOGameViewField gameField, XOGameModel game, XOGamePlayer player) {
 		super();
 		this.gameField = gameField;
 		this.game = game;
 		this.player = player;
 		comp = new Player( (player.getPs()==PlayerSymbol.X) ? PlayerSymbol.O : PlayerSymbol.X,"comp");
-		
-		addListeners();
 	}
 	
 	public XOGamePlayer getPlayer() {
 		return player;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * create an action listener for XOGameButton
+	 * cheack winner after each user "click" and make computer one after that
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//проверить кнопку
@@ -52,9 +59,11 @@ public class Controller implements ActionListener{
 			compShoot();
 			checkWinner();
 		}
-		//System.out.println(game.getGameFieldSymbol(i, j)+"");
 	}
 	
+	/*
+	 * check winner of the game. If we have a winner - causes GameField congratulation method with winner name parameter. else - none
+	 */
 	private void checkWinner(){
 		PlayerSymbol winningSymbol = game.isWinner();
 		if(winningSymbol != PlayerSymbol.EMPTY){
@@ -66,6 +75,9 @@ public class Controller implements ActionListener{
 		}
 	}
 	
+	/*
+	 * add action listener for each of XOGameButton
+	 */
 	public void addListeners(){
 		XOGameButton[][] buttonArray = gameField.getJb();
 		for(int i=0;i<buttonArray.length;i++){
@@ -75,6 +87,9 @@ public class Controller implements ActionListener{
 		}
 	}
 	
+	/*
+	 * make computer move
+	 */
 	public void compShoot(){
 		if(game.haveEmptyFields()){
 			Random rand = new Random();

@@ -7,4 +7,7 @@ public interface XOGameField {
 	public PlayerSymbol getSymbol();
 
 	public void setSymbol(PlayerSymbol symbol);
+	
+	public XOGameField[][] createEmptySymbArray();
+	
 }

@@ -7,9 +7,8 @@ import com.mnr.xo.interfaces.XOGameButton;
 
 public class GameButton extends JButton implements XOGameButton{
 
-	/**
-	 * 
-	 */
+	private static final long serialVersionUID = 1L;
+
 	private int i;
 	private int j;
 	
@@ -20,10 +19,12 @@ public class GameButton extends JButton implements XOGameButton{
 		this.setText(text);
 	}
 
+	@Override
 	public int getI() {
 		return i;
 	}
 
+	@Override
 	public int getJ() {
 		return j;
 	}

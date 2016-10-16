@@ -8,37 +8,34 @@ public class Game implements XOGameModel{
 	private XOGameField[][] fieldArray;
 	
 	public Game(){
-		/*for(int i=0;i<fieldArray.length;i++){
-			for(int j=0;j<fieldArray[i].length;j++){
-				fieldArray[i][j] = new Field(PlayerSymbol.EMPTY);
-			}
-		}
-		*/
 	}
-	
-	
 
 	public Game(XOGameField[][] fieldArray) {
 		super();
 		this.fieldArray = fieldArray;
 	}
 
-
-
+	@Override
 	public XOGameField[][] getFieldArray() {
 		return fieldArray;
 	}
 
-
+	@Override
 	public void setFieldArray(XOGameField[][] fieldArray) {
 		this.fieldArray = fieldArray;
 	}
 
-
+	@Override
 	public void setGameField(int i,int j,PlayerSymbol ps){
 		fieldArray[i][j].setSymbol(ps);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see com.mnr.xo.interfaces.XOGameModel#getGameFieldSymbol(int, int)
+	 * return symbol of cell with taken coordinates
+	 */
+	@Override
 	public PlayerSymbol getGameFieldSymbol(int i,int j){
 		return fieldArray[i][j].getSymbol();
 	}
@@ -46,6 +43,7 @@ public class Game implements XOGameModel{
 	/*
 	 * return winning symbol
 	 */
+	@Override
 	public PlayerSymbol isWinner(){
 		if( (fieldArray[0][0].getSymbol() == PlayerSymbol.X && fieldArray[0][1].getSymbol() == PlayerSymbol.X && fieldArray[0][2].getSymbol() == PlayerSymbol.X) ||
 				(fieldArray[1][0].getSymbol() == PlayerSymbol.X && fieldArray[1][1].getSymbol() == PlayerSymbol.X && fieldArray[1][2].getSymbol() == PlayerSymbol.X) ||
@@ -75,6 +73,12 @@ public class Game implements XOGameModel{
 		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see com.mnr.xo.interfaces.XOGameModel#haveEmptyFields()
+	 * check do we have at least 1 field with EMPTY symbol
+	 */
+	@Override
 	public boolean haveEmptyFields(){
 		for(int i=0;i<fieldArray.length;i++){
 			for(int j=0;j<fieldArray[i].length;j++){
