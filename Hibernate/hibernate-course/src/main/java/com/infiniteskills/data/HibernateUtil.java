@@ -12,6 +12,7 @@ public class HibernateUtil {
 		try {
 			Configuration configuration = new Configuration();
 			//configuration.addAnnotatedClass(User.class);// если НЕ пишем в hibernate.cfg.xml
+			configuration.configure();
 			return configuration
 					.buildSessionFactory(new StandardServiceRegistryBuilder()
 							.applySettings(configuration.getProperties())

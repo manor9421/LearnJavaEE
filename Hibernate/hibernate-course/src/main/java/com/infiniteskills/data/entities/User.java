@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="FINANCES_USER")
+@Table(name="finances_user")
 public class User {
 	
 	@Id//Primary key в таблице!!
@@ -20,25 +20,25 @@ public class User {
 	
 	@Column(name="FIRST_NAME")
 	private String firstName;
-	
+
 	@Column(name="LAST_NAME")
 	private String lastName;
-	
+
 	@Column(name="BIRTH_DATE")
 	private Date birthDate;
-	
+
 	@Column(name="EMAIL_ADDRESS")
 	private String emailAddress;
-	
+
 	@Column(name="LAST_UPDATED_DATE")
 	private Date lastUpdatedDate;
-	
+
 	@Column(name="LAST_UPDATED_BY")
 	private String lastUpdatedBy;
-	
+
 	@Column(name="CREATED_DATE")
 	private Date createdDate;
-	
+
 	@Column(name="CREATED_BY")
 	private String createdBy;
 
@@ -113,7 +113,5 @@ public class User {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
-	
-	
 	
 }
