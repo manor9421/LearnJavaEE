@@ -26,24 +26,20 @@
 		<constructor-arg><ref bean="newPlayer" /></constructor-arg>
 	</bean>
 	
-	<bean id="xOLogger" class="com.mnr.xo.logger.XOLogger"/>
-	
-	<aop:config>
-		<aop:aspect id="gameFieldLog" ref="xOLogger">
-			<aop:pointcut id="buttonManipulations" expression="execution(* com.mnr.xo.view.GameField.changeButtonText(..))" />
-			<aop:before pointcut-ref="buttonManipulations" method="buttonStartChange" />
-			<aop:after pointcut-ref="buttonManipulations" method="buttonChanged" />
-		</aop:aspect>
-		<aop:aspect id="GameLog" ref="xOLogger">
-			<aop:pointcut id="gameManipulations" expression="execution(* com.mnr.xo.model.Game.getGameFieldSymbol(..))" />
-			<aop:pointcut id="gameisWinner" expression="execution(* com.mnr.xo.model.Game.isWinner())" />
-			<aop:after-returning method="printReturnedValue" returning="obj" pointcut-ref="gameManipulations" />
-			<aop:after-returning method="checkWinner" returning="obj" pointcut-ref="gameisWinner" />
-			
-		</aop:aspect>
-	</aop:config>
-	
-	
+<!-- <bean id="xOLogger" class="com.mnr.xo.logger.XOLogger"/> -->
+<!-- <aop:config> -->
+<!-- 	<aop:aspect id="gameFieldLog" ref="xOLogger"> -->
+<!-- 		<aop:pointcut id="buttonManipulations" expression="execution(* com.mnr.xo.view.GameField.changeButtonText(..))" /> -->
+<!-- 		<aop:before pointcut-ref="buttonManipulations" method="buttonStartChange" /> -->
+<!-- 		<aop:after pointcut-ref="buttonManipulations" method="buttonChanged" /> -->
+<!-- 	</aop:aspect> -->
+<!-- 	<aop:aspect id="GameLog" ref="xOLogger"> -->
+<!-- 		<aop:pointcut id="gameManipulations" expression="execution(* com.mnr.xo.model.Game.getGameFieldSymbol(..))" /> -->
+<!-- 		<aop:pointcut id="gameisWinner" expression="execution(* com.mnr.xo.model.Game.isWinner())" /> -->
+<!-- 		<aop:after-returning method="printReturnedValue" returning="obj" pointcut-ref="gameManipulations" /> -->
+<!-- 		<aop:after-returning method="checkWinner" returning="obj" pointcut-ref="gameisWinner" /> -->
+<!-- 	</aop:aspect> -->
+<!-- </aop:config> -->
 	
 <!-- 	<bean id="buttonBase" -->
 <!-- 		abstract="true" > -->
