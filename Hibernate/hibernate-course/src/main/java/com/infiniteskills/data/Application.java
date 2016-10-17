@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.hibernate.Session;
 
+import com.infiniteskills.data.entities.TimeTest;
 import com.infiniteskills.data.entities.User;
 
 public class Application {
@@ -15,7 +16,7 @@ public class Application {
 		session.beginTransaction();
 		session.close();*/
 		
-		session.getTransaction().begin();
+		/*session.getTransaction().begin();
 		
 		User user = new User();
 		user.setBirthDate(new Date());
@@ -30,7 +31,25 @@ public class Application {
 		session.save(user);
 		
 		session.getTransaction().commit();// Commit
-		session.close();
+		session.close();*/
+		
+		try {
+			session.getTransaction().begin();
+
+			TimeTest test = new TimeTest(new Date());
+			session.save(test);
+			session.getTransaction().commit();
+			
+			session.refresh(test);
+			
+			System.out.println(test.toString());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			session.close();
+			HibernateUtil.getSessionFactory().close();
+		}
 		
 		
 	}

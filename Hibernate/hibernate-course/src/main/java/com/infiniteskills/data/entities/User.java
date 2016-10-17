@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Formula;
+
 @Entity
 @Table(name="finances_user")
 //@Access(value=AccessType.PROPERTY)
@@ -60,6 +62,17 @@ public class User {
 	@Transient// обозначить, что это не колонка таблицы. По дефолту именно так ее воспримет Хибернейт
 	private boolean valid;
 	
+	@Formula("lower(datediff(curdate(), birth_date)/365")//при селекте значение этой переменной само посчитается. При том, что такого поля нет в бд
+	private int age;
+	
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 
 	public boolean isValid() {
 		return valid;
