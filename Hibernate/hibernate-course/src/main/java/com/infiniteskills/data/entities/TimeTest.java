@@ -19,7 +19,7 @@ public class TimeTest {
 	@Column(name = "TIME_TEST_ID")
 	private Long timeTestId;
 
-	@Temporal(TemporalType.TIMESTAMP)//специфицируем какой тип вывода информации для колонки нам надо
+	@Temporal(TemporalType.TIMESTAMP)//специфицируем какой тип информации для колонки нам надо
 	@Column(name = "DATETIME_COLUMN")
 	private Date datetimeColumn;
 
