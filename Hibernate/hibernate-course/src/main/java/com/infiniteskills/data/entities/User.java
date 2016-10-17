@@ -2,20 +2,34 @@ package com.infiniteskills.data.entities;
 
 import java.util.Date;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="finances_user")
+//@Access(value=AccessType.PROPERTY)
 public class User {
 	
 	@Id//Primary key в таблице!!
 	@GeneratedValue(strategy=GenerationType.IDENTITY)// определяем стратегию генерации уникального идентификатора
-	@Column(name="USER_ID")
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="user_seq")//для ORACLE DB. Генерируем primary key
+	//@SequenceGenerator(name="user_seq",sequenceName="USER_ID_SEQ")
+	//аннотациями @GeneratedValue и @SequenceGenerator мы определяем стратегию генерации уникального идентификатора, в данном случае мы говорим, что при сохранении информации в базу данных, мы берем число из sequence с названием «user_seq»
+	//@GeneratedValue(strategy=GenerationType.TABLE,generator="user_table_generator")
+	//@TableGenerator(name="user_table_generator",table="ifinances_keys",
+	//	pkColumnName="PK_NAME",valueColumnName="PK_VALUE")
+	//GenerationType.TABLE работает в любой бд
+	@Column(name="USER_ID")// лучше ставить это на геттеры, чтобы не портить инкапсуляцию
 	private Long userId;
 	
 	@Column(name="FIRST_NAME")
@@ -24,7 +38,8 @@ public class User {
 	@Column(name="LAST_NAME")
 	private String lastName;
 
-	@Column(name="BIRTH_DATE")
+	//@Basic// простейший тип маппинга на колонку
+	@Column(name="BIRTH_DATE", nullable=false)// не может быть null. При попытке вставить null вылетит ошибка
 	private Date birthDate;
 
 	@Column(name="EMAIL_ADDRESS")
@@ -36,11 +51,23 @@ public class User {
 	@Column(name="LAST_UPDATED_BY")
 	private String lastUpdatedBy;
 
-	@Column(name="CREATED_DATE")
+	@Column(name="CREATED_DATE", updatable=false)//не будет меняться это поле после создания коммита. Все последующие апдейты этой колонки не произойдут
 	private Date createdDate;
 
 	@Column(name="CREATED_BY")
 	private String createdBy;
+	
+	@Transient// обозначить, что это не колонка таблицы. По дефолту именно так ее воспримет Хибернейт
+	private boolean valid;
+	
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
 
 	public Long getUserId() {
 		return userId;
