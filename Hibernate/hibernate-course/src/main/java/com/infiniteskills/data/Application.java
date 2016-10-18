@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
 import org.hibernate.Session;
 
 import com.infiniteskills.data.entities.Account;
@@ -288,12 +293,12 @@ public class Application {
 			HibernateUtil.getSessionFactory().close();
 		}*/
 		
-		org.hibernate.Transaction transaction = session.beginTransaction();
+		/*org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
 			Bank bank = (Bank) session.get(Bank.class, 1L);
 			bank.setName("Something Different");
 			System.out.println("Calling Flush");
-			session.flush();
+			session.flush(); // flush!!!
 			
 			bank.setAddressLine1("Another Address Line");
 			System.out.println("Calling commit");
@@ -305,6 +310,61 @@ public class Application {
 			session.close();
 			HibernateUtil.getSessionFactory().close();
 		}
+		*/
+		
+		
+		// JPA.
+		/*
+		//Before it - create META_INF/persistence.xml
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("infinite-finances");
+		EntityManager em = emf.createEntityManager();
+		
+		EntityTransaction tx =  em.getTransaction();
+
+		tx.begin();
+		
+		Bank bank = createBank();
+		
+		em.persist(bank);
+		
+		tx.commit();
+		
+		em.close();
+		emf.close();
+		*/
+		
+		EntityManagerFactory factory = null;
+		EntityManager em = null;
+		EntityTransaction tx = null;
+		
+		try{
+			
+			factory = Persistence.createEntityManagerFactory("infinite-finances");
+			em = factory.createEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
+			/*
+			Bank bank = createBank();
+			em.persist(bank);// записать в бд
+			*/
+			Bank bank = em.find(Bank.class, 1L);// ищем в БД
+			System.out.println(em.contains(bank));
+			System.out.println(bank.getName());
+
+			Bank bank2 = em.getReference(Bank.class, 12L);// ищем в БД. НО выбросит Exception, если не найдет
+			System.out.println(em.contains(bank2));
+			System.out.println(bank2.getName());
+			
+			tx.commit();
+		}catch (Exception e) {
+			tx.rollback();
+		}finally {
+			em.close();
+			factory.close();
+		}
+		
+		
+		
 		
 		
 	}
