@@ -333,6 +333,7 @@ public class Application {
 		emf.close();
 		*/
 		
+		/*
 		EntityManagerFactory factory = null;
 		EntityManager em = null;
 		EntityTransaction tx = null;
@@ -343,10 +344,11 @@ public class Application {
 			em = factory.createEntityManager();
 			tx = em.getTransaction();
 			tx.begin();
-			/*
-			Bank bank = createBank();
-			em.persist(bank);// записать в бд
-			*/
+			
+			//Bank bank = createBank();
+			//em.persist(bank);// записать в бд
+			
+			
 			Bank bank = em.find(Bank.class, 1L);// ищем в БД
 			System.out.println(em.contains(bank));
 			System.out.println(bank.getName());
@@ -355,6 +357,40 @@ public class Application {
 			System.out.println(em.contains(bank2));
 			System.out.println(bank2.getName());
 			
+			bank.setName("Demo");// изменяем
+			
+			// em.remove(bank);// удалить запись из БД
+			
+			tx.commit();
+		}catch (Exception e) {
+			tx.rollback();
+		}finally {
+			em.close();
+			factory.close();
+		}*/
+	
+		EntityManagerFactory factory = null;
+		EntityManager em = null;
+		EntityTransaction tx = null;
+		
+		try{
+			
+			factory = Persistence.createEntityManagerFactory("infinite-finances");
+			em = factory.createEntityManager();
+			tx = em.getTransaction();
+			tx.begin();
+			
+			Bank bank = em.find(Bank.class, 1L);
+			//em.clear();// очищаем все, что есть
+			em.detach(bank);// очищаем поштучно
+			System.out.println(em.contains(bank));
+			
+			bank.setName("New name");// если не найдет(а мы очистили detach - сделает новую запись
+			Bank bank2 = em.merge(bank);// пишем изменения в БД. Возвращает то, что записали - bank2
+			
+			bank.setName("New name 2");// здесь мы уже работаем с вернувшимся значением(bank2)
+			// т.к. мы его не записываем в БД, а изменяем тут - второго апдейта не будет
+			
 			tx.commit();
 		}catch (Exception e) {
 			tx.rollback();
@@ -362,7 +398,6 @@ public class Application {
 			em.close();
 			factory.close();
 		}
-		
 		
 		
 		
