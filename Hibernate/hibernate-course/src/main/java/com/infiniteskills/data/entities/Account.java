@@ -10,6 +10,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +37,11 @@ public class Account {
 		inverseJoinColumns=@JoinColumn(name="USER_ID"))
 	private Set<User> users = new HashSet<>();
 
+
+	@Enumerated(EnumType.STRING)// обязательно при работе с enum. Чтобы не возвращало 0
+	@Column(name="ACCOUNT_TYPE")
+	private AccountType accountType;
+	
 	@ManyToOne
 	@JoinColumn(name="BANK_ID")
 	private Bank bank;
@@ -163,6 +170,22 @@ public class Account {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	public AccountType getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+
+	public Bank getBank() {
+		return bank;
+	}
+
+	public void setBank(Bank bank) {
+		this.bank = bank;
 	}
 
 	

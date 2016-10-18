@@ -5,7 +5,7 @@ import java.util.Date;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.infiniteskills.data.entities.Bond;
+import com.infiniteskills.data.entities.MyBond;
 
 public class ITry {
 	public static void main(String[] args) {
@@ -14,7 +14,7 @@ public class ITry {
 		
 		Transaction t = session.beginTransaction();
 		
-		Bond b = new Bond();
+		MyBond b = new MyBond();
 		
 		b.setName("Roman");
 		b.setIssuer("Abc");

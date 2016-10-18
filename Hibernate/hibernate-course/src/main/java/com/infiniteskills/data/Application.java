@@ -10,20 +10,27 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import com.infiniteskills.data.entities.Account;
+import com.infiniteskills.data.entities.AccountType;
 import com.infiniteskills.data.entities.Address;
 import com.infiniteskills.data.entities.Bank;
+import com.infiniteskills.data.entities.Bond;
 import com.infiniteskills.data.entities.Credential;
+import com.infiniteskills.data.entities.Currency;
+import com.infiniteskills.data.entities.Market;
+import com.infiniteskills.data.entities.Stock;
 import com.infiniteskills.data.entities.TimeTest;
 import com.infiniteskills.data.entities.User;
+import com.infiniteskills.data.entities.ids.CurrencyId;
 import com.infiniteskills.data.entities.Transaction;
 
 public class Application {
 	
 	public static void main(String[] args) {
 		
-		Session session = HibernateUtil.getSessionFactory().openSession();
+//		Session session = HibernateUtil.getSessionFactory().openSession();
 		/*
 		session.beginTransaction();
 		session.close();*/
@@ -369,7 +376,7 @@ public class Application {
 			factory.close();
 		}*/
 	
-		EntityManagerFactory factory = null;
+		/*EntityManagerFactory factory = null;
 		EntityManager em = null;
 		EntityTransaction tx = null;
 		
@@ -397,11 +404,172 @@ public class Application {
 		}finally {
 			em.close();
 			factory.close();
+		}*/
+		
+		/*
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		Session session2 = null;
+		org.hibernate.Transaction tx = null;
+		org.hibernate.Transaction tx2 = null;
+
+		try {
+			sessionFactory = HibernateUtil.getSessionFactory();
+			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
+
+			Currency currency = new Currency();
+			currency.setCountryName("United States");
+			currency.setName("Dollar");
+			currency.setSymbol("$");
+
+			session.persist(currency);
+			tx.commit();
+
+			session2 = sessionFactory.openSession();
+			tx2 = session2.beginTransaction();
+
+			Currency dbCurrency = (Currency) session2.get(Currency.class,
+					new CurrencyId("Dollar", "United States"));
+			System.out.println(dbCurrency.getName());
+			
+			tx2.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+			if (tx2 != null) {
+				tx2.rollback();
+			}
+		} finally {
+			session.close();
+			sessionFactory.close();
+		}*/
+		
+		/*SessionFactory sessionFactory = null;
+		Session session = null;
+		org.hibernate.Transaction tx = null;
+
+		try {
+			sessionFactory = HibernateUtil.getSessionFactory();
+			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
+
+			Currency currency = new Currency();
+			currency.setCountryName("United Kingdom");
+			currency.setName("Pound");
+			currency.setSymbol("Pound Sign");
+
+			Market market = new Market();
+			market.setMarketName("London Stock Exchange");
+			market.setCurrency(currency);
+			
+			session.persist(market);// persist
+			tx.commit();
+			
+			Market dbMarket = (Market) session.get(Market.class, market.getMarketId());
+			System.out.println(dbMarket.getCurrency().getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			session.close();
+			sessionFactory.close();
+		}
+		*/
+		
+		// работа с Enum. Сохраняется в varchar
+		/*SessionFactory sessionFactory = null;
+		Session session = null;
+		org.hibernate.Transaction tx = null;
+
+		try {
+			sessionFactory = HibernateUtil.getSessionFactory();
+			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
+			
+			Account account = createNewAccount();
+			account.setAccountType(AccountType.SAVINGS);
+			
+			session.save(account);
+			tx.commit();
+			
+			Account dbAccount = (Account) session.get(Account.class, account.getAccountId());
+			System.out.println(dbAccount.getName());
+			System.out.println(dbAccount.getAccountType());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			session.close();
+			sessionFactory.close();
+		}*/
+		
+		//
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		org.hibernate.Transaction tx = null;
+
+		try {
+			sessionFactory = HibernateUtil.getSessionFactory();
+			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
+		
+			Stock stock = createStock();
+			session.save(stock);
+		
+			Bond bond = createBond();
+			session.save(bond);
+			
+			tx.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			session.close();
+			sessionFactory.close();
 		}
 		
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	private static Bond createBond() {
+		Bond bond = new Bond();
+		bond.setInterestRate(new BigDecimal("123.22"));
+		bond.setIssuer("JP Morgan Chase");
+		bond.setMaturityDate(new Date());
+		bond.setPurchaseDate(new Date());
+		bond.setName("Long Term Bond Purchases");
+		bond.setValue(new BigDecimal("10.22"));
+		return bond;
+	}
+
+	private static Stock createStock(){
+		Stock stock = new Stock();
+		stock.setIssuer("Allen Edmonds");
+		stock.setName("Private American Stock Purchases");
+		stock.setPurchaseDate(new Date());
+		stock.setQuantity(new BigDecimal("1922"));
+		stock.setSharePrice(new BigDecimal("100.00"));
+		return stock;
 	}
 	
 	private static Bank createBank() {
