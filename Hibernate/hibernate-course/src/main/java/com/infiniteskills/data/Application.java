@@ -19,7 +19,9 @@ import com.infiniteskills.data.entities.Bank;
 import com.infiniteskills.data.entities.Bond;
 import com.infiniteskills.data.entities.Credential;
 import com.infiniteskills.data.entities.Currency;
+import com.infiniteskills.data.entities.Investment;
 import com.infiniteskills.data.entities.Market;
+import com.infiniteskills.data.entities.Portfolio;
 import com.infiniteskills.data.entities.Stock;
 import com.infiniteskills.data.entities.TimeTest;
 import com.infiniteskills.data.entities.User;
@@ -507,7 +509,7 @@ public class Application {
 		}*/
 		
 		//
-		SessionFactory sessionFactory = null;
+		/*SessionFactory sessionFactory = null;
 		Session session = null;
 		org.hibernate.Transaction tx = null;
 
@@ -531,7 +533,50 @@ public class Application {
 			session.close();
 			sessionFactory.close();
 		}
+		*/
 		
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		org.hibernate.Transaction tx = null;
+
+		try {
+			sessionFactory = HibernateUtil.getSessionFactory();
+			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
+		
+			Portfolio portfolio= new Portfolio();
+			portfolio.setName("First Investments");
+			
+		    Stock stock = createStock();		
+		    stock.setPortfolio(portfolio);
+		    
+		    Bond bond = createBond();
+		    bond.setPortfolio(portfolio);
+		
+			portfolio.getInvestements().add(stock);
+			portfolio.getInvestements().add(bond);
+			
+			// т.к. они оба связаны с Portfolio(их родитель содержит Portfolio), эта таблица заполнится сама(частный пример)
+			// т.к. Portfolio сам заполнится в этом случае, у нас будет UNION - "дорогая операция"
+			session.save(stock);
+			session.save(bond);
+
+			tx.commit();
+			
+			Portfolio dbPortfolio = (Portfolio) session.get(Portfolio.class, portfolio.getPortfolioId());
+			session.refresh(dbPortfolio);
+			
+			for(Investment i:dbPortfolio.getInvestements()){
+				System.out.println(i.getName());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			session.close();
+			sessionFactory.close();
+		}
 		
 		
 		

@@ -24,12 +24,12 @@ public abstract class Investment {
 	@GeneratedValue(strategy=GenerationType.TABLE,generator="key_generator")// #jpa
 	@TableGenerator(table="ifinances_keys",pkColumnName="pk_name",
 		valueColumnName="pk_value",name="key_generator")// #jpa
-	@Column(name="INVESTMENT_ID")
+	@Column(name="INVESTMENT_ID")// #jpa
 	private Long investmentId;// #jpa
 	
-	@JoinColumn(name="PORTFOLIO_ID")
-	@ManyToOne(cascade=CascadeType.ALL)
-	private Portfolio portfolio;
+	@JoinColumn(name="PORTFOLIO_ID")// #jpa
+	@ManyToOne(cascade=CascadeType.ALL)// #jpa
+	private Portfolio portfolio;// #jpa
 	
 	
 	@Column(name = "NAME")
@@ -63,6 +63,22 @@ public abstract class Investment {
 
 	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
+	}
+
+	public Long getInvestmentId() {
+		return investmentId;
+	}
+
+	public void setInvestmentId(Long investmentId) {
+		this.investmentId = investmentId;
+	}
+
+	public Portfolio getPortfolio() {
+		return portfolio;
+	}
+
+	public void setPortfolio(Portfolio portfolio) {
+		this.portfolio = portfolio;
 	}
 
 }

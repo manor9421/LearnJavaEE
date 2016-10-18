@@ -22,7 +22,7 @@ public class Portfolio {
 	@Column(name="NAME")
 	private String name;
 	
-	@OneToMany(mappedBy="portfolio")
+	@OneToMany(mappedBy="portfolio")//portfolio field from Investment.class
 	private List<Investment> investements = new ArrayList<>();
 
 	public Long getPortfolioId() {
