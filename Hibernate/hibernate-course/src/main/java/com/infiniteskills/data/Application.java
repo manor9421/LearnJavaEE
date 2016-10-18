@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 
 import com.infiniteskills.data.entities.Address;
 import com.infiniteskills.data.entities.Bank;
+import com.infiniteskills.data.entities.Credential;
 import com.infiniteskills.data.entities.TimeTest;
 import com.infiniteskills.data.entities.User;
 
@@ -117,7 +118,7 @@ public class Application {
 			HibernateUtil.getSessionFactory().close();
 		}*/
 		
-		try {
+		/*try {
 			Transaction transaction = session.beginTransaction();
 			
 			User user = new User();
@@ -131,6 +132,35 @@ public class Application {
 			setUserFields(user);
 
 			session.save(user);
+			transaction.commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			session.close();
+			HibernateUtil.getSessionFactory().close();
+		}*/
+		
+		try {
+			Transaction transaction = session.beginTransaction();
+			
+			User user = new User();
+			user.setFirstName("Kevin");
+			user.setLastName("Bowersox");
+			user.setAge(20);
+			user.setBirthDate(new Date());
+			user.setCreatedBy("Kevin Bowersox");
+			user.setCreatedDate(new Date());
+			user.setEmailAddress("kevin.bowersox@navy.mil");
+			user.setLastUpdatedDate(new Date());
+			user.setLastUpdatedBy("Kevin Bowersox");
+
+			Credential credential = new Credential();
+			credential.setPassword("kevinspassword");
+			credential.setUsername("kmb385");
+			credential.setUser(user);
+			
+			session.save(credential);
 			transaction.commit();
 			
 		} catch (Exception e) {
