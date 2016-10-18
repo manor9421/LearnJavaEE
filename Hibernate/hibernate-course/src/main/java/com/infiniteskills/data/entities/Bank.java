@@ -181,4 +181,12 @@ public class Bank {
 		this.createdBy = createdBy;
 	}
 
+	public String getAddressType() {
+		return address.getAddressType();
+	}
+
+	public void setAddressType(String addressType) {
+		this.address.setAddressType(addressType);
+	}
+	
 }

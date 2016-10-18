@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -72,6 +73,9 @@ public class User {
 	
 	@Formula("lower(datediff(curdate(), birth_date)/365")//при селекте значение этой переменной само посчитается. При том, что такого поля нет в бд
 	private int age;
+
+	@OneToOne(mappedBy = "user")
+	private Credential credential;
 	
 	@ElementCollection// #list
 	//@Embedded
@@ -88,7 +92,7 @@ public class User {
 	public void setAddress(List<Address> address) {
 		this.address = address;
 	}
-
+	
 	public int getAge() {
 		return age;
 	}
@@ -97,6 +101,14 @@ public class User {
 		this.age = age;
 	}
 
+	public Credential getCredential() {
+		return credential;
+	}
+
+	public void setCredential(Credential credential) {
+		this.credential = credential;
+	}
+	
 	public boolean isValid() {
 		return valid;
 	}

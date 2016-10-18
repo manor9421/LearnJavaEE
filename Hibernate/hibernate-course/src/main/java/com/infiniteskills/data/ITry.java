@@ -28,5 +28,7 @@ public class ITry {
 		
 		t.commit();
 		
+		session.close();
+		
 	}
 }
